@@ -1,0 +1,27 @@
+/*JMenuBar menuBar = new JMenuBar();
+		getContentPane().add(menuBar, BorderLayout.PAGE_START);
+		JMenu menu = new JMenu("Menu");
+		menuBar.add(menu);
+		JMenuItem r = new JMenuItem("Rules");
+		menu.add(r);
+		r.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, 
+						"1.Доска: 8х8\n"+
+						"2.Количество шашек у игрока: 12\n"+
+						"3.Расположение: первые 3 ряда\n"+
+						"4.Бить: обязательно; если возникает ситуация с двумя\n и более направлениями для удара, выбирается любой, но бьются все доступные шашки соперника\n"+
+						"5.Бить назад: запрещено простым шашкам\n"+
+						"6.Дамка: может ходить на одно поле в любом направлении\n"+
+						"7.Первый ход: осуществляется чёрными шашками.");
+				repaint();
+				return;
+				
+			}
+		});
+			
+		JMenuItem c= new JMenuItem ("Conect");
+		menu.add(c);
+	}*/
