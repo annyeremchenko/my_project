@@ -1,0 +1,68 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.btn{
+    background-color: darkseagreen;
+    border-color: darkseagreen;
+}
+
+.btn:hover, .btn:focus, .btn:active{
+    background-color: darkseagreen;
+    border-color: darkseagreen;
+    
+}
+
+.btn:active{
+    background-color: darkseagreen!important; 
+    border-color: darkseagreen!important;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+    box-shadow: 0 0 5px darkseagreen;
+    border: 1px solid darkseagreen;
+}
+
+.form-control {
+    border-radius: 0;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    border: 1px solid #DDDDDD;
+
+}
+.form-control-top  {
+    margin-bottom: -1px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.form-control-bot {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

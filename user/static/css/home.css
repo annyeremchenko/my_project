@@ -1,0 +1,33 @@
+.header {
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: darkseagreen;
+    color: #444;
+}
+.logo > img {
+    height: 32px;
+    width: 32px;
+}
+.nav > li{
+    padding: 12px;
+}
+.nav > li > a{
+    font-size: 24px;
+    color: #444;
+}
+.logo {
+    padding: 8px;
+    display: inline-block;
+    height: inherit;
+}
+.logo > h3 {
+    font-size: 24px;
+}
+.username {
+    font-size: 16px;
+    color: darkseagreen;
+    
+}
+.info {
+    padding: 20px;
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Sign Up</title>
+    <link rel="shortcut icon" href="{%  static 'image/favicon.ico' %}">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/signup.css'%}" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <form class="form-signin" role="form" method="post">
+          {% csrf_token %}
+        <h2 class="form-signin-heading">Sign up</h2>
+        {%if error%}<h4 class="alert-warning">{{error}}</h4>{%endif%}
+        <input type="email" class="form-control form-control-top" placeholder="Email address" required autofocus name="email">
+        <input type="password" class="form-control" placeholder="Password" required name="password">
+        <input type="password" class="form-control" placeholder="Repeat password" required name="password_repeat">
+        <input type="text" class="form-control" placeholder="Nickname" required name="username">
+        <input type="text" class="form-control" placeholder="Firstname" required name="firstname">
+        <input type="text" class="form-control form-control-bot" placeholder="Lastname" required name="lastname">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <a class="btn btn-lg btn-primary btn-block" href="/login/">Log in</a>
+      </form>
+
+    </div> 
+  </body>
+</html>
