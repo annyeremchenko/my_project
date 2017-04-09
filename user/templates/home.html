@@ -13,6 +13,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/Mustache.js' %}"></script>
     <script src="{% static 'js/home.js'%}"></script>
 </head>
 <body>
@@ -32,9 +33,19 @@
     <div class="container">
         <div class="col-lg-12">
             <div class="col-lg-4 info">
-                <p class="username">{{user.username}}</p>
-                <p><button id="firstname">First name:</button><span>{{user.first_name}}</span></p>
-                <p id="lastname">Last name: {{user.last_name}}</p>
+                <p class="username">Hi, {{user.username}}</p>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-field-to-change" type="button">First name:</button>
+                    </span>
+                    <input class="form-control" value="{{user.first_name}}" name="firstname" disabled>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-field-to-change" type="button">Last name:</button>
+                    </span>
+                    <input class="form-control" value="{{user.last_name}}" name="lastname" disabled>
+                </div>
             </div>
             <div class="col-lg-8">
             </div>

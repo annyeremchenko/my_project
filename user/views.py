@@ -6,7 +6,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-import sys
+from django.shortcuts import HttpResponse
+import sys, json
 
 
 class Home(View):
@@ -14,6 +15,23 @@ class Home(View):
     def get(self, request):
         return render(request, "home.html", {})
 
+    @method_decorator(login_required(login_url='/login/'))
+    def post(self, request):
+        if request.POST.__contains__('key') and request.POST.__contains__('value'):
+            key = request.POST['key']
+            val = request.POST['value']
+            if key == 'firstname':
+                request.user.first_name = val
+                request.user.save()
+                return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
+            elif key == 'lastname':
+                request.user.last_name = val
+                request.user.save()
+                return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
+            else:
+                return HttpResponse(json.dumps({"status": "error key"}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({"status": "error request"}), content_type='application/json')
 
 class Signup(View):
     def get(self, request, params={}):
