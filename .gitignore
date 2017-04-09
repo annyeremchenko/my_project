@@ -1,7 +1,5 @@
 *.pyc
-*.html
-*.js
-*.css
+*.py
 __pycache__
 db.sqlite3
 Lib

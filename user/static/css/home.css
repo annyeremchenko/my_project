@@ -24,10 +24,43 @@
     font-size: 24px;
 }
 .username {
-    font-size: 24px;
-    color: darkseagreen;
+    font-size: 32px;
     
 }
 .info {
     padding: 20px;
+}
+.text-green {
+    color: darkseagreen;
+}
+.row {
+    border: 2px;
+    border-style: solid;
+    border-color: #ddd;
+    background-color: #fff;
+    padding: 10px;
+}
+body {
+    background-color: #f9f9f9;
+}
+.btn{
+    background-color: darkseagreen;
+    border-color: darkseagreen;
+}
+
+.btn:hover, .btn:focus, .btn:active{
+    background-color: darkseagreen;
+    border-color: darkseagreen;
+    
+}
+
+.btn:active{
+    background-color: darkseagreen!important; 
+    border-color: darkseagreen!important;
+}
+.input-group-btn{
+    width: 40%;
+}
+.input-group-btn > button {
+    width: 100%;
 }

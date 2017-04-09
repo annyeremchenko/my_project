@@ -48,6 +48,30 @@
                 </div>
             </div>
             <div class="col-lg-8">
+                <h2>Jobs to do:</h2>
+                <div class="row-marketing">
+                    {% for job in user.todo.all %}
+                    <div class="row">
+                        <h3 class="text-green">Type: {{ job.type }} Points: {{ job.points }} Deadline: {{ job.deadline }}</h3>
+                        <p>Description: {{ job.description }}</p>
+                        <p class="text-green">Customer: {{ job.customer.username }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <h2>Your posted jobs:</h2>
+                <div class="row-marketing">
+                    {% for job in user.jobs.all %}
+                    <div class="row">
+                        <h3 class="text-green">Type: {{ job.type }} Points: {{ job.points }} Deadline: {{ job.deadline }}</h3>
+                        <p>Description: {{ job.description }}</p>
+                        {% if job.performer %}
+                        <p class="text-green">Doing: {{ job.performer.username }}</p>
+                        {% else %}
+                        <p class="text-green">None is doing</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
