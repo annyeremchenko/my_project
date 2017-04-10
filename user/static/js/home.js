@@ -67,4 +67,55 @@ function btnFieldToChange(){
     btn.unbind("click", btnFieldToChange);
     btn.click(btnFieldChange);
 }
+var map;
+function initMap() {
+    var kiev = {lat: 50.548, lng: 30.226};
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: kiev
+    });
+    var marker;
+    var markerInput_lat = $('#marker_lat');
+    var markerInput_lng = $('#marker_lng');
+    google.maps.event.addListener(map, 'click', function(event) {
+        if (marker != null) {
+            marker.setMap(null);
+        }
+        marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map,
+            draggable: true
+        });
+        markerInput_lat.val(marker.position.lat());
+        markerInput_lng.val(marker.position.lng());
+        google.maps.event.addListener(marker, 'drag', function(event) {
+            markerInput_lat.val(this.position.lat());
+            markerInput_lng.val(marker.position.lng());
+        });
+        google.maps.event.addListener(marker, 'dragend', function(event) {
+            markerInput_lat.val(this.position.lat());
+            markerInput_lng.val(this.position.lng());
+        });
+    });
+}
 
+function initMapToLocate(jobLocation, userLocation){
+    var jobMarker;
+    map.center = jobLocation;
+    jobMarker = new google.maps.Marker({
+            position: jobLocation,
+            map: map
+        });
+    var userMarker = new google.maps.Marker({
+            position: userLocation,
+            map: map
+        });
+}
+
+$(document).ready(function() {
+    $(".btn-map-marker-set").click(function(){
+        alert("go");
+        var mapNode = map.getDiv();
+        $('#mapHolder2').append(mapNode);
+    });
+});

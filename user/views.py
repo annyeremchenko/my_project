@@ -7,16 +7,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import HttpResponse
-import sys, json
+from job.models import Job, Location
+import sys, json, math
 
 
 class Home(View):
     @method_decorator(login_required(login_url='/login/'))
-    def get(self, request):
-        return render(request, "home.html", {})
+    def get(self, request, **params):
+        return render(request, "home.html", params)
 
     @method_decorator(login_required(login_url='/login/'))
     def post(self, request):
+        print(request.POST)
         if request.POST.__contains__('key') and request.POST.__contains__('value'):
             key = request.POST['key']
             val = request.POST['value']
@@ -30,8 +32,28 @@ class Home(View):
                 return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
             else:
                 return HttpResponse(json.dumps({"status": "error key"}), content_type='application/json')
+        elif request.POST.__contains__('type') and request.POST.__contains__('points') and request.POST.__contains__('description') and request.POST.__contains__('deadline') and request.POST.__contains__('lng') and request.POST.__contains__('lat'):
+            job_type = int(request.POST['type'])
+            points = int(request.POST['points'])
+            description = request.POST['description']
+            deadline = request.POST['deadline']
+            lng = float(request.POST['lng'])
+            lat = float(request.POST['lat'])
+            if request.user.info.points < points:
+                return self.get(request, error='Not enough points to post job')
+            location = Location.objects.create(x=lng, y=lat)
+            Job.objects.create(type=job_type,
+                               points=points,
+                               description=description,
+                               deadline=deadline,
+                               customer=request.user,
+                               location=location)
+            request.user.info.points -= points
+            request.user.info.save()
+            return self.get(request)
         else:
             return HttpResponse(json.dumps({"status": "error request"}), content_type='application/json')
+
 
 class Signup(View):
     def get(self, request, params={}):
@@ -110,6 +132,7 @@ class Login(View):
 class Logout(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
+        logout(request)
         return redirect("/login/")
 
 # Create your views here.

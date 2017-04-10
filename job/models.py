@@ -16,8 +16,8 @@ class Job(models.Model):
         return {"points": self.points,
                 "description": self.description,
                 "type": self.type,
-                "deadline": self.deadline,
-                "customer": self.customer,
-                "performer": self.performer,
+                "deadline": self.deadline.__str__(),
+                "customer": self.customer.__str__(),
+                "performer": self.performer.__str__(),
                 "location": self.location.dict()}
 # Create your models here.

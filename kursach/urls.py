@@ -16,8 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from user import urls as user_urls
-
+from job import urls as job_urls
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'jobs/', include(job_urls)),
     url(r'^', include(user_urls))
 ]
