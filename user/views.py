@@ -6,8 +6,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from django.shortcuts import HttpResponse
 from job.models import Job, Location
+from django.shortcuts import HttpResponse
 import sys, json, math
 
 
@@ -50,7 +50,8 @@ class Home(View):
                                location=location)
             request.user.info.points -= points
             request.user.info.save()
-            return self.get(request)
+            request.method = 'get'  # виправлення багу із повторним надсиланням форми
+            return redirect('/home/')
         else:
             return HttpResponse(json.dumps({"status": "error request"}), content_type='application/json')
 

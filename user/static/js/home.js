@@ -80,6 +80,8 @@ function initMap() {
     google.maps.event.addListener(map, 'click', function(event) {
         if (marker != null) {
             marker.setMap(null);
+        } else {
+            $("#postJobButton").removeAttr("disabled");
         }
         marker = new google.maps.Marker({
             position: event.latLng,

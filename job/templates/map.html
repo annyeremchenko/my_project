@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{%  static 'image/favicon.ico' %}">
+    <meta charset="UTF-8">
+    <title>Map</title>
+        <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/map.css'%}" rel="stylesheet">
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var map;
+        var directionsDisplay;
+        var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
+        var jobLocation = {lat: {{lat}}, lng: {{lng}}};
+        var directionsService
+        function initMap() {
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: userLocation
+            });
+            directionsDisplay.setMap(map);
+            var userMarker = new google.maps.Marker({
+                position: userLocation,
+                map: map
+            });
+            var jobMarker = new google.maps.Marker({
+                position: jobLocation,
+                map: map
+            });
+            
+            
+        }
+        function calcRoute() {
+            var selectedMode = document.getElementById('mode').value;
+            var request = {
+                origin: userLocation,
+                destination: jobLocation,
+                travelMode: google.maps.TravelMode[selectedMode]
+            };
+            directionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                    directionsDisplay.setDirections(result);
+                }
+            });
+        }
+        
+    </script>
+    <script src="{% static 'js/map.js'%}"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1H2mfmKTx6ujnCmvQgNH7JCcyHtTcZug&callback=initMap">
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+    <div>
+    <strong>Mode of Travel: </strong>
+    <select id="mode" onchange="calcRoute();">
+        <option value="DRIVING">Driving</option>
+        <option value="WALKING">Walking</option>
+        <option value="BICYCLING">Bicycling</option>
+        <option value="TRANSIT">Transit</option>
+    </select>
+</div>
+</body>
+</html>

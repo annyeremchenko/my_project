@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{%  static 'image/favicon.ico' %}">
+    <meta charset="UTF-8">
+    <title>Map</title>
+        <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/map.css'%}" rel="stylesheet">
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var map;
+        function initMap() {
+            var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: userLocation
+            });
+            var userMarker = new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                title: 'You are here' 
+            });
+            var jobMarker;
+            {% for job in jobs %}
+            jobMarker = new google.maps.Marker({
+                position: {lat: {{job.location.y}},
+                           lng: {{job.location.x}}},
+                map: map,
+                title: '{{job.type}}'                              
+            });
+            {% endfor %}
+        }
+    </script>
+    <script src="{% static 'js/map.js'%}"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1H2mfmKTx6ujnCmvQgNH7JCcyHtTcZug&callback=initMap">
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>

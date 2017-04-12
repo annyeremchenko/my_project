@@ -44,7 +44,7 @@
                     <h4 class="modal-title">Post job</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-post" role="form" method="post">{% csrf_token %}
+                    <form id="postJob" class="form-post" role="form" method="post">{% csrf_token %}
                         <div id="mapHolder2">
                             <div id="map">
                             </div>
@@ -55,7 +55,7 @@
                         <input class="form-control" type="number" placeholder="Points" name="points" required>
                         <input class="form-control" type="date" placeholder="Deadline" name="deadline" required>
                         <textarea name="description" placeholder="Decription.." class="form-control" rows="5" required></textarea>
-                        <button type="submit" class="btn margin-top">Post</button>
+                        <button type="submit" class="btn margin-top" disabled id="postJobButton">Post</button>
                         <button type="button" class="btn pull-right margin-top" data-dismiss="modal">Close</button>
                     </form>
                     
@@ -102,10 +102,7 @@
                     {% for job in user.todo.all %}
                     <div class="row">
                         <h3 class="text-green">Type: {{ job.type }} Points: {{ job.points }} Deadline: {{ job.deadline }}
-                            <button class="btn pull-right text-black btn-map-marker-set">View location
-                                <spam class="marker_lat" hidden="true">{{job.location.y}}</spam>
-                                <spam class="marker_lng" hidden="true">{{job.location.x}}</spam>
-                            </button>
+                            <a class="btn pull-right text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
                         </h3>
                         <p>Description: {{ job.description }}</p>
                         <p class="text-green">Customer: {{ job.customer.username }}</p>

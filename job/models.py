@@ -20,4 +20,7 @@ class Job(models.Model):
                 "customer": self.customer.__str__(),
                 "performer": self.performer.__str__(),
                 "location": self.location.dict()}
+
+
+
 # Create your models here.
