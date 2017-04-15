@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from job.models import Job, Location
+from .models import UserInfo
 from django.shortcuts import HttpResponse
 import sys, json, math
 
@@ -82,7 +83,13 @@ class Signup(View):
             user = User.objects.create_user(params['username'], params['email'], params['password'])
             user.last_name = params['lastname']
             user.first_name = params['firstname']
+            lat = float(params['lat'])
+            lng = float(params['lng'])
             user.save()
+            location = Location.objects.create(x=lng, y=lat)
+            UserInfo.objects.create(location=location, user=user)
+
+
             user = authenticate(username=params['username'], password=params['password'])
             if user is not None:
                 if user.is_active:

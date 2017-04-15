@@ -13,6 +13,28 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         var map;
+        var infowindow;
+        var submit;
+        function fillInfo(info){
+            infowindow.description.text("Description: " + info.description);
+            infowindow.customer.text("Customer: " + info.customer);
+            infowindow.type.text("Type: " + info.title);
+            infowindow.id.val(info.id);
+        }
+        function sendData()
+        {
+            
+            $.ajax({
+                type: "POST",
+                data: {
+                    id: infowindow.id.val(),
+                    xhr: true
+                },
+                success: function(result){
+                    alert(result.status);
+                }
+            });
+        }
         function initMap() {
             var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
             map = new google.maps.Map(document.getElementById('map'), {
@@ -24,16 +46,39 @@
                 map: map,
                 title: 'You are here' 
             });
+            infowindow = {
+                description: $("#description"),
+                customer: $("#customer"),
+                type: $("#type"),
+                id: $("#id")
+            }
+            submit = $("#submit");
+            $(document).ready(function() {
+                submit.click(sendData);
+            });
             var jobMarker;
             {% for job in jobs %}
             jobMarker = new google.maps.Marker({
                 position: {lat: {{job.location.y}},
                            lng: {{job.location.x}}},
                 map: map,
-                title: '{{job.type}}'                              
+                title: '{{job.get_type_display}}'                              
+            }); 
+            jobMarker.addListener('click', function() {
+                submit.removeAttr("disabled");
+                fillInfo({
+                    description: "{{job.description}}",
+                    customer: "{{job.customer.username}}",
+                    type: '{{job.get_type_display}}',
+                    id: {{job.id}}
+                });
             });
             {% endfor %}
+            
+
+            
         }
+        
     </script>
     <script src="{% static 'js/map.js'%}"></script>
     <script async defer
@@ -42,5 +87,12 @@
 </head>
 <body>
     <div id="map"></div>
+    <div id="info">
+        <div id="type">Type: None</div>
+        <div id="description">Description: None</div>
+        <div id="customer">Customer: None</div>
+        <input type="hidden" id="id">
+        <button id="submit" class="btn btn-default" disabled>Get this job</button>
+    </div>
 </body>
 </html>

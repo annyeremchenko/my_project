@@ -81,6 +81,7 @@ function initMap() {
         if (marker != null) {
             marker.setMap(null);
         } else {
+            google.maps.event.trigger(map, "resize");
             $("#postJobButton").removeAttr("disabled");
         }
         marker = new google.maps.Marker({
@@ -115,9 +116,11 @@ function initMapToLocate(jobLocation, userLocation){
 }
 
 $(document).ready(function() {
-    $(".btn-map-marker-set").click(function(){
-        alert("go");
-        var mapNode = map.getDiv();
-        $('#mapHolder2').append(mapNode);
-    });
+    initMap();
+});
+
+$(document).ready(function() {
+    $('#postJob').on('shown', function() {  
+        google.maps.event.trigger(map, "resize");
+    })
 });

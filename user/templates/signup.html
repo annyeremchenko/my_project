@@ -14,11 +14,57 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/signup.css'%}" rel="stylesheet">
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var map;
+        function initMap() {
+            var kiev = {lat: 50.438, lng: 30.526};
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: kiev
+            });
+            var marker;
+            var markerInput_lat = $('#marker_lat');
+            var markerInput_lng = $('#marker_lng');
+            google.maps.event.addListener(map, 'click', function(event) {
+                if (marker != null) {
+                    marker.setMap(null);
+                } else {
+                    $("#submit").removeAttr("disabled");
+                }
+                marker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                    draggable: true
+                });
+                markerInput_lat.val(marker.position.lat());
+                markerInput_lng.val(marker.position.lng());
+                google.maps.event.addListener(marker, 'drag', function(event) {
+                    markerInput_lat.val(this.position.lat());
+                    markerInput_lng.val(marker.position.lng());
+                });
+                google.maps.event.addListener(marker, 'dragend', function(event) {
+                    markerInput_lat.val(this.position.lat());
+                    markerInput_lng.val(this.position.lng());
+                });
+            });
+        }
+    </script>
+      <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1H2mfmKTx6ujnCmvQgNH7JCcyHtTcZug&callback=initMap">
+    </script>
   </head>
 
   <body>
     <div class="container">
+        
+        <span>
       <form class="form-signin" role="form" method="post">
+         
+        <input id="marker_lat" class="form-control" type="hidden" placeholder="Lat" name="lat" required>
+        <input id="marker_lng" class="form-control" type="hidden" placeholder="Lng" name="lng"  required>
           {% csrf_token %}
         <h2 class="form-signin-heading">Sign up</h2>
         {%if error%}<h4 class="alert-warning">{{error}}</h4>{%endif%}
@@ -28,10 +74,12 @@
         <input type="text" class="form-control" placeholder="Nickname" required name="username">
         <input type="text" class="form-control" placeholder="Firstname" required name="firstname">
         <input type="text" class="form-control form-control-bot" placeholder="Lastname" required name="lastname">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <button id="submit" disabled class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
         <a class="btn btn-lg btn-primary btn-block" href="/login/">Log in</a>
       </form>
-
+        </span>
+        <span id="map">
+        </span> 
     </div> 
   </body>
 </html>

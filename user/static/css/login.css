@@ -2,21 +2,6 @@ body {
     padding-top: 40px;
     padding-bottom: 40px;
     background-color: #eee;
-    width: 100%;
-}
-
-.container {
-    max-width: 80%;
-    overflow: hidden;
-    position: relative;
-}
-
-#map {
-    height: 100%;
-    width: 50%;
-    margin-bottom: 10px;
-    display: inline-block;
-     position: absolute;
 }
 
 .btn{
@@ -27,22 +12,16 @@ body {
 .btn:hover, .btn:focus, .btn:active{
     background-color: darkseagreen;
     border-color: darkseagreen;
-    
-}
 
-.btn:disabled{
-    background-color: darkseagreen!important; 
-    border-color: darkseagreen!important;
 }
 
 .btn:active{
-    background-color: darkseagreen!important; 
+    background-color: darkseagreen!important;
     border-color: darkseagreen!important;
 }
 
 .form-signin {
-    display: inline-block;
-    width: 40%;
+    max-width: 330px;
     padding: 15px;
     margin: 0 auto;
 }

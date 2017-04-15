@@ -11,8 +11,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{% static 'js/Mustache.js' %}"></script>
-    <script src="{% static 'js/home.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/home.js'%}"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1H2mfmKTx6ujnCmvQgNH7JCcyHtTcZug&callback=initMap">
     </script>
@@ -42,6 +41,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Post job</h4>
+                    
                 </div>
                 <div class="modal-body">
                     <form id="postJob" class="form-post" role="form" method="post">{% csrf_token %}
@@ -51,7 +51,22 @@
                         </div>
                         <input id="marker_lat" class="form-control" type="hidden" placeholder="Lat" name="lat"  required>
                         <input id="marker_lng" class="form-control" type="hidden" placeholder="Lng" name="lng"  required>
-                        <input class="form-control" type="number" placeholder="Type" name="type" required>
+                        <select class="form-control" name="type">
+                            <option value="0">Прогулянка із псом</option>
+                            <option value="1">Похід за продуктами</option>
+                            <option value="2">Миття вікон</option>
+                            <option value="3">Ремонт меблів</option>
+                            <option value="4">Супровід дитини у школу</option>
+                            <option value="5">Ремонт одягу</option>
+                            <option value="6">Миття машини</option>
+                            <option value="7">Послуги няні</option>
+                            <option value="8">Ремонт велосипеду</option>
+                            <option value="9">Догляд за домашньою твариною на певний час</option>
+                            <option value="10">Допомога з перевезенням речей</option>
+                            <option value="11">Фарбування паркану</option>
+                            <option value="12">Прибирання квартири</option>
+                            <option value="13">Миття посуду</option>
+                        </select>
                         <input class="form-control" type="number" placeholder="Points" name="points" required>
                         <input class="form-control" type="date" placeholder="Deadline" name="deadline" required>
                         <textarea name="description" placeholder="Decription.." class="form-control" rows="5" required></textarea>
@@ -101,7 +116,7 @@
                 <div class="row-marketing">
                     {% for job in user.todo.all %}
                     <div class="row">
-                        <h3 class="text-green">Type: {{ job.type }} Points: {{ job.points }} Deadline: {{ job.deadline }}
+                        <h3 class="text-green">Type: {{ job.get_type_display }} Points: {{ job.points }} Deadline: {{ job.deadline }}
                             <a class="btn pull-right text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
                         </h3>
                         <p>Description: {{ job.description }}</p>
@@ -113,7 +128,7 @@
                 <div class="row-marketing">
                     {% for job in user.jobs.all %}
                     <div class="row">
-                        <h3 class="text-green">Type: {{ job.type }} Points: {{ job.points }} Deadline: {{ job.deadline }}
+                        <h3 class="text-green">Type: {{ job.get_type_display }} Points: {{ job.points }} Deadline: {{ job.deadline }}
                             <button class="btn pull-right text-black btn-map-marker-set">View location
                                 <spam class="marker_lat" hidden="true">{{job.location.y}}</spam>
                                 <spam class="marker_lng" hidden="true">{{job.location.x}}</spam>
