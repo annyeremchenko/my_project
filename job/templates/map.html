@@ -16,28 +16,8 @@
         var directionsDisplay;
         var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
         var jobLocation = {lat: {{lat}}, lng: {{lng}}};
-        var directionsService
-        function initMap() {
-            directionsService = new google.maps.DirectionsService();
-            directionsDisplay = new google.maps.DirectionsRenderer();
-            var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: userLocation
-            });
-            directionsDisplay.setMap(map);
-            var userMarker = new google.maps.Marker({
-                position: userLocation,
-                map: map
-            });
-            var jobMarker = new google.maps.Marker({
-                position: jobLocation,
-                map: map
-            });
-            
-            
-        }
-        function calcRoute() {
+        var directionsService;
+         function calcRoute() {
             var selectedMode = document.getElementById('mode').value;
             var request = {
                 origin: userLocation,
@@ -50,6 +30,19 @@
                 }
             });
         }
+        function initMap() {
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            var userLocation = {lat: {{user.info.location.y}}, lng: {{user.info.location.x}}};
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: userLocation
+            });
+            directionsDisplay.setMap(map);
+            calcRoute();
+            
+        }
+       
         
     </script>
     <script src="{% static 'js/map.js'%}"></script>

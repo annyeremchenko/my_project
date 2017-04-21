@@ -34,10 +34,8 @@
 .text-green {
     color: darkseagreen;
 }
-.row {
-    border: 2px;
-    border-style: solid;
-    border-color: #ddd;
+.job-row {
+    
     background-color: #fff;
     padding: 10px;
 }
@@ -87,4 +85,23 @@ body {
     height: 200px;
     width: 100%;
     margin-bottom: 10px;
+}
+.btn-job-serv{
+    width: 100%;
+    border-radius: 0px;
+    border: 0;
+}
+.btn-job-serv:hover {
+    background-color: #eee;
+}
+.row{
+    background-color: darkseagreen;
+    border: 2px;
+    border-style: solid;
+    border-color: #ddd;
+}
+.job-serv{
+    margin: 0;
+    padding: 0;
+    background-color: darkseagreen;
 }

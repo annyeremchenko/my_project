@@ -26,6 +26,7 @@ class Job(models.Model):
     customer = models.ForeignKey(User, related_name="jobs")
     performer = models.ForeignKey(User, related_name="todo", null=True)
     location = models.ForeignKey(Location, related_name="job", null=True)
+    done = models.BooleanField(default=False)
 
     def dict(self):
         return {"points": self.points,

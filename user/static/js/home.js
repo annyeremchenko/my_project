@@ -124,3 +124,40 @@ $(document).ready(function() {
         google.maps.event.trigger(map, "resize");
     })
 });
+
+$(document).ready(function() {
+    $(".delete-job").click(function (){
+        btn = $(this);
+        
+        $.ajax({
+            type: "DELETE",
+            url: document.location.href + "?id=" + btn.val(),
+            success: function(result){
+                if (result.status == "ok"){
+                    btn.parent().parent().remove();
+                }
+                else{
+                    alert(result.status);
+                }
+                
+            } 
+        });
+    });
+});
+
+$(document).ready(function() {
+    $(".done-job").click(function (){
+        btn = $(this);
+        $.ajax({
+            type: "POST",
+            data: {
+                done: btn.val()
+            },
+            success: function(result){
+                if (result.status != "ok"){
+                    alert(result.status);
+                }   
+            } 
+        });
+    });
+});

@@ -15,10 +15,13 @@
         var map;
         var infowindow;
         var submit;
+        var markers = [];
+        
         function fillInfo(info){
             infowindow.description.text("Description: " + info.description);
             infowindow.customer.text("Customer: " + info.customer);
-            infowindow.type.text("Type: " + info.title);
+            infowindow.type.text("Type: " + info.type);
+            infowindow.points.text("Points: " + info.points);
             infowindow.id.val(info.id);
         }
         function sendData()
@@ -44,13 +47,29 @@
             var userMarker = new google.maps.Marker({
                 position: userLocation,
                 map: map,
-                title: 'You are here' 
+                title: 'You are here',
+                label: 'H',
+                draggable: true
             });
+            var markerInput_lat = $('#marker_lat');
+            var markerInput_lng = $('#marker_lng');
+            google.maps.event.addListener(userMarker, 'drag', function(event) {
+                
+                markerInput_lat.val(this.position.lat());
+                markerInput_lng.val(this.position.lng());
+            });
+            google.maps.event.addListener(userMarker, 'dragend', function(event) {
+                markerInput_lat.val(this.position.lat());
+                markerInput_lng.val(this.position.lng());
+                $("#changeUserLocation").removeAttr("disabled");
+            });
+                                          
             infowindow = {
                 description: $("#description"),
                 customer: $("#customer"),
                 type: $("#type"),
-                id: $("#id")
+                id: $("#id"),
+                points: $("#points")
             }
             submit = $("#submit");
             $(document).ready(function() {
@@ -58,26 +77,54 @@
             });
             var jobMarker;
             {% for job in jobs %}
-            jobMarker = new google.maps.Marker({
+            markers.push(new google.maps.Marker({
                 position: {lat: {{job.location.y}},
-                           lng: {{job.location.x}}},
+                    lng: {{job.location.x}}},
                 map: map,
                 title: '{{job.get_type_display}}'                              
-            }); 
-            jobMarker.addListener('click', function() {
-                submit.removeAttr("disabled");
-                fillInfo({
-                    description: "{{job.description}}",
-                    customer: "{{job.customer.username}}",
-                    type: '{{job.get_type_display}}',
-                    id: {{job.id}}
+            }));
+            markers[markers.length - 1].addListener('click', function() {
+                    submit.removeAttr("disabled");
+                    fillInfo({
+                        description: "{{job.description}}",
+                        customer: "{{job.customer.username}}",
+                        type: '{{job.get_type_display}}',
+                        points: '{{job.points}}',
+                        id: {{job.id}}
+                     });
                 });
-            });
             {% endfor %}
-            
 
             
         }
+        function filter(){
+            options = document.getElementById("filter").selectedOptions;
+            
+            for (let i = 0; i < markers.length; i++){
+                let visible = false;
+                for (let j = 0; j < options.length; j++)
+                {
+                    visible = visible || options[j].text == markers[i].title;
+                }
+                markers[i].setVisible(visible);                    
+            }
+            map.resize();
+        }
+        /*function changeLocation()
+        {
+            
+            $.ajax({
+                type: "POST",
+                data: {
+                    lat: markerInput_lat.val(),
+                    lng: markerInput_lng.val(),
+                    xhr: true
+                },
+                success: function(result){
+                    alert(result.status);
+                }
+            });
+        }*/
         
     </script>
     <script src="{% static 'js/map.js'%}"></script>
@@ -88,11 +135,39 @@
 <body>
     <div id="map"></div>
     <div id="info">
+        <a class="nav btn" href="/home/">Home</a>
+        <a class="nav btn" href="/logout/">Logout</a>
+        <a class="btn nav-1" href="{{nav.href}}">{{nav.text}}</a>
+        <select id="filter" class="form-control" style="height: 250px;" name="type" onchange="filter();" multiple>
+            <option value="0">Прогулянка із псом</option>
+            <option value="1">Похід за продуктами</option>
+            <option value="2">Миття вікон</option>
+            <option value="3">Ремонт меблів</option>
+            <option value="4">Супровід дитини у школу</option>
+            <option value="5">Ремонт одягу</option>
+            <option value="6">Миття машини</option>
+            <option value="7">Послуги няні</option>
+            <option value="8">Ремонт велосипеду</option>
+            <option value="9">Догляд за домашньою твариною на певний час</option>
+            <option value="10">Допомога з перевезенням речей</option>
+            <option value="11">Фарбування паркану</option>
+            <option value="12">Прибирання квартири</option>
+            <option value="13">Миття посуду</option>
+        </select>
         <div id="type">Type: None</div>
         <div id="description">Description: None</div>
         <div id="customer">Customer: None</div>
+        <div id="points">Points: None</div>
         <input type="hidden" id="id">
         <button id="submit" class="btn btn-default" disabled>Get this job</button>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" id="marker_lat" name="lat">
+            <input type="hidden" id="marker_lng" name="lng">
+            <button id="changeUserLocation" class="btn btn-default" type="submit" disabled="true">Change location</button>
+        </form>
+        
+            
     </div>
 </body>
 </html>

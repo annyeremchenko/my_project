@@ -53,8 +53,44 @@ class Home(View):
             request.user.info.save()
             request.method = 'get'  # виправлення багу із повторним надсиланням форми
             return redirect('/home/')
+        elif request.POST.__contains__('done'):
+            user = request.user
+            id = int(request.POST['done'])
+            job = Job.objects.get(id=id)
+            if job.performer is not None and job.performer.id == user.id:
+                job.done = True
+                job.save()
+            elif job.customer.id == user.id and job.done:
+                job.performer.info.points += job.points
+                job.performer.info.save()
+                job.delete()
+            else:
+                return HttpResponse(json.dumps({"status": "error request"}), content_type='application/json')
+            return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
         else:
             return HttpResponse(json.dumps({"status": "error request"}), content_type='application/json')
+
+    @method_decorator(login_required(login_url='/login/'))
+    def delete(self, request):
+        user = request.user
+        id = int(request.GET['id'])
+        job = Job.objects.get(id=id)
+        if job.performer is not None and job.performer.id == user.id:
+            job.performer = None
+            job.save()
+        elif job.customer.id == user.id and not job.done:
+            user.info.points += job.points
+            user.info.save()
+            job.delete()
+        else:
+            return HttpResponse(json.dumps({"status": "error request"}), content_type='application/json')
+        return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
+
+
+class UserInformation(View):
+    def get(self, request, id):
+        user = User.objects.get(id=int(id))
+        return render(request, "info.html", {'another': user})
 
 
 class Signup(View):

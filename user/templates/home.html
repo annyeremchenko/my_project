@@ -20,7 +20,7 @@
     <div class="header">
         <ul class="nav nav-pills pull-right small ">
             <li><a data-toggle="modal" data-target="#postJob">Post job</a></li>
-            <li><a data-toggle="modal" data-target="#jobLocation">View map</a></li>
+            <li><a href="/jobs/">Search jobs</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="/logout/">Logout</a> </li>
@@ -116,11 +116,16 @@
                 <div class="row-marketing">
                     {% for job in user.todo.all %}
                     <div class="row">
-                        <h3 class="text-green">Type: {{ job.get_type_display }} Points: {{ job.points }} Deadline: {{ job.deadline }}
-                            <a class="btn pull-right text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
-                        </h3>
-                        <p>Description: {{ job.description }}</p>
-                        <p class="text-green">Customer: {{ job.customer.username }}</p>
+                        <div class="col-lg-9 job-row">
+                            <h3 class="text-green">Type: {{ job.get_type_display }} Points: {{ job.points }} <br>Deadline: {{ job.deadline }}</h3>
+                            <p>Description: {{ job.description }}</p>
+                            <p class="text-green">Customer: <a href="/{{job.customer.id}}/">{{ job.customer.username }}</a></p>
+                        </div>
+                        <div class="col-lg-3 job-serv">
+                            <a class="btn btn-job-serv text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
+                            <button class="btn btn-job-serv text-black btn-map-marker-set done-job" value="{{job.id}}">Done</button>
+                            <button class="btn btn-job-serv text-black btn-map-marker-set delete-job" value="{{job.id}}">Delete</button>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -128,18 +133,27 @@
                 <div class="row-marketing">
                     {% for job in user.jobs.all %}
                     <div class="row">
-                        <h3 class="text-green">Type: {{ job.get_type_display }} Points: {{ job.points }} Deadline: {{ job.deadline }}
-                            <button class="btn pull-right text-black btn-map-marker-set">View location
-                                <spam class="marker_lat" hidden="true">{{job.location.y}}</spam>
-                                <spam class="marker_lng" hidden="true">{{job.location.x}}</spam>
-                            </button>
-                        </h3>
-                        <p>Description: {{ job.description }}</p>
-                        {% if job.performer %}
-                        <p class="text-green">Doing: {{ job.performer.username }}</p>
-                        {% else %}
-                        <p class="text-green">None is doing</p>
-                        {% endif %}
+                        <div class="col-lg-9 job-row">
+                            <h3 class="text-green">Type: {{ job.get_type_display }} Points: {{ job.points }} <br>Deadline: {{ job.deadline }}</h3>
+                            <p>Description: {{ job.description }}</p>
+                            {% if job.performer %}
+                            {% if job.done %}
+                            <p class="text-green">Done by: <a href="/{{job.performer.id}}/">{{ job.performer.username }}</a></p>
+                            {% else %}
+                            <p class="text-green">Doing: <a href="/{{job.performer.id}}/">{{ job.performer.username }}</a></p>
+                            {% endif %}
+                            
+                            {% else %}
+                            <p class="text-green">None is doing</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-3 job-serv">
+                            <a class="btn btn-job-serv text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
+                            <button class="btn btn-job-serv text-black btn-map-marker-set done-job" value="{{job.id}}">Done</button>
+                            <button class="btn btn-job-serv text-black btn-map-marker-set delete-job" value="{{job.id}}">Delete</button>
+                        </div>
+                        
+                        
                     </div>
                     {% endfor %}
                 </div>
