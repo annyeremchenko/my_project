@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1929474-f049-49e4-92b4-b7dcfb8270e4" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/user/static/image/index.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user/templates/index.html" afterPath="$PROJECT_DIR$/user/templates/index.html" />
     </list>
     <ignored path="kursach.iws" />
