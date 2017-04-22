@@ -31,16 +31,25 @@ class Home(View):
                 request.user.last_name = val
                 request.user.save()
                 return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
+            elif key == 'email':
+                request.user.email = val
+                request.user.save()
+                return HttpResponse(json.dumps({"status": "ok"}), content_type='application/json')
             else:
                 return HttpResponse(json.dumps({"status": "error key"}), content_type='application/json')
-        elif request.POST.__contains__('type') and request.POST.__contains__('points') and request.POST.__contains__('description') and request.POST.__contains__('deadline') and request.POST.__contains__('lng') and request.POST.__contains__('lat'):
+        elif request.POST.__contains__('type') \
+                and request.POST.__contains__('points') \
+                and request.POST.__contains__('description') \
+                and request.POST.__contains__('deadline') \
+                and request.POST.__contains__('lng') \
+                and request.POST.__contains__('lat'):
             job_type = int(request.POST['type'])
             points = int(request.POST['points'])
             description = request.POST['description']
             deadline = request.POST['deadline']
             lng = float(request.POST['lng'])
             lat = float(request.POST['lat'])
-            if request.user.info.points < points:
+            if request.user.info.points < points or points < 1:
                 return self.get(request, error='Not enough points to post job')
             location = Location.objects.create(x=lng, y=lat)
             Job.objects.create(type=job_type,
@@ -75,7 +84,7 @@ class Home(View):
         user = request.user
         id = int(request.GET['id'])
         job = Job.objects.get(id=id)
-        if job.performer is not None and job.performer.id == user.id:
+        if job.performer is not None and job.performer.id == user.id and not job.done:
             job.performer = None
             job.save()
         elif job.customer.id == user.id and not job.done:

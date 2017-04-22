@@ -33,17 +33,23 @@
                 <p class="username">This is {{another.username}}</p>
                 <p>You have {{another.info.points}} points</p>
                 <p class="error">{{error}}</p>
-                <div class="input-group">
+                <div class="input-group"  title="{{another.first_name}}">
                     <span class="input-group-btn">
                         <button class="btn btn-default btn-field-to-change" type="button">First name:</button>
                     </span>
                     <input class="form-control" value="{{another.first_name}}" name="firstname" disabled>
                 </div>
-                <div class="input-group">
+                <div class="input-group" title="{{another.last_name}}">
                     <span class="input-group-btn">
                         <button class="btn btn-default btn-field-to-change" type="button">Last name:</button>
                     </span>
                     <input class="form-control" value="{{another.last_name}}" name="lastname" disabled>
+                </div>
+                <div class="input-group" title="{{another.email}}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-field-to-change" type="button" >Email:</button>
+                    </span>
+                    <input class="form-control" value="{{another.email}}" name="lastname" disabled>
                 </div>
             </div>
             <div class="col-lg-8">

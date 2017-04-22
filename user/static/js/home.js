@@ -154,9 +154,12 @@ $(document).ready(function() {
                 done: btn.val()
             },
             success: function(result){
-                if (result.status != "ok"){
+                if (result.status == "ok"){
+                    btn.text(btn.text() + " \u2714")
+                } 
+                else {
                     alert(result.status);
-                }   
+                }
             } 
         });
     });

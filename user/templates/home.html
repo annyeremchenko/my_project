@@ -110,6 +110,12 @@
                     </span>
                     <input class="form-control" value="{{user.last_name}}" name="lastname" disabled>
                 </div>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-field-to-change" type="button">Email:</button>
+                    </span>
+                    <input class="form-control" value="{{user.email}}" name="email" disabled>
+                </div>
             </div>
             <div class="col-lg-8">
                 <h2>Jobs to do:</h2>
@@ -123,7 +129,7 @@
                         </div>
                         <div class="col-lg-3 job-serv">
                             <a class="btn btn-job-serv text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
-                            <button class="btn btn-job-serv text-black btn-map-marker-set done-job" value="{{job.id}}">Done</button>
+                            <button class="btn btn-job-serv text-black btn-map-marker-set done-job" value="{{job.id}}">Done {% if job.done %}&#10004{%endif%}</button>
                             <button class="btn btn-job-serv text-black btn-map-marker-set delete-job" value="{{job.id}}">Delete</button>
                         </div>
                     </div>
@@ -149,7 +155,7 @@
                         </div>
                         <div class="col-lg-3 job-serv">
                             <a class="btn btn-job-serv text-black btn-map-marker-set" target="_blank" href="/jobs/map/?lat={{job.location.y}}&lng={{job.location.x}}">View location</a>
-                            <button class="btn btn-job-serv text-black btn-map-marker-set done-job" value="{{job.id}}">Done</button>
+                            <button class="btn btn-job-serv text-black btn-map-marker-set done-job" value="{{job.id}}">Done {% if job.done %}&#10004{%endif%}</button>
                             <button class="btn btn-job-serv text-black btn-map-marker-set delete-job" value="{{job.id}}">Delete</button>
                         </div>
                         
