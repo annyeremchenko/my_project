@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'signup/', views.Signup.as_view(), name='sign up'),        # реєстрація
     url(r'home/', views.Home.as_view(), name='home'),               # домашня сторінка
     url(r'(\d+)/', views.UserInformation.as_view(), name='another user home'),  # домашня сторінка іншого користувача
+    url(r'$', views.Index.as_view(), name='index')  # початкова сторінка
 ]

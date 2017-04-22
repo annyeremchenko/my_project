@@ -12,6 +12,11 @@ from django.shortcuts import HttpResponse
 import sys, json, math
 
 
+class Index(View):
+    def get(self, request):
+        return render(request, "index.html", {})
+
+
 class Home(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request, **params):
