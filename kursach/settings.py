@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,9 +25,6 @@ SECRET_KEY = '@m&obfv@59e9-c=pu=g_kg()645oa*870o*)g)(cqdti0@x#s0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -77,14 +75,16 @@ WSGI_APPLICATION = 'kursach.wsgi.application'
 
 DATABASES = {
      'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'anna',
-        'USER': 'postgres',
-        'PASSWORD': 'galaxyace3110',
-        'HOST': '', # Set to empty string for localhost.
-        'PORT': '', # Set to empty string for default.
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'anna',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'galaxyace3110',
+        # 'HOST': '', # Set to empty string for localhost.
+        # 'PORT': '', # Set to empty string for default.
     }
 }
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -121,5 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ALLOWED_HOSTS = ['*']
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
